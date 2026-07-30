@@ -68,7 +68,7 @@ const services = [
 
 function PortfolioHome() {
   return (
-    <main className="min-h-screen bg-[#0f1511] text-[#f4fbf2]">
+    <main className="min-h-screen animate-in fade-in duration-1000 bg-[#0f1511] text-[#f4fbf2]">
       <section className="border-b border-[#9ee68b]/15">
         <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:py-16">
           <div className="flex flex-col justify-center">
@@ -139,10 +139,12 @@ function PortfolioHome() {
           </div>
 
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-            {portfolioVideos.map((video) => (
+            {portfolioVideos.map((video, index) => (
               <article
                 key={video.id}
-                className="overflow-hidden rounded-lg border border-[#9ee68b]/20 bg-[#182219]"
+                className="animate-in fade-in slide-in-from-bottom-4 overflow-hidden rounded-lg border border-[#9ee68b]/20 bg-[#182219]"
+                style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
+              >
               >
                 <div className="aspect-[9/16] bg-[#101812]">
                   <iframe

@@ -45,7 +45,7 @@ const portfolioVideos = [
     title: 'Short-form edit 07'
   },
     {
-    id: 'shorts/CC8xlAtG8B8',
+    id: 'CC8xlAtG8B8',
     title: 'Short-form edit 08'
   },
 ]

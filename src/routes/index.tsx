@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useEffect, useRef, useState } from 'react'
 import {
   Captions,
   Clapperboard,
@@ -44,7 +45,7 @@ const portfolioVideos = [
     id: 'U5gh6HBKglw',
     title: 'Short-form edit 07'
   },
-    {
+  {
     id: 'CC8xlAtG8B8',
     title: 'Short-form edit 08'
   },
@@ -66,9 +67,50 @@ const services = [
   { icon: Volume2, label: 'Sound design' },
 ]
 
+function FadeIn({
+  children,
+  delay = 0,
+  className = '',
+}: {
+  children: React.ReactNode
+  delay?: number
+  className?: string
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.15 },
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+      } ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  )
+}
+
 function PortfolioHome() {
   return (
-    <main className="min-h-screen animate-in fade-in duration-1000 bg-[#0f1511] text-[#f4fbf2]">
+    <main className="min-h-screen bg-[#0f1511] text-[#f4fbf2]">
       <section className="border-b border-[#9ee68b]/15">
         <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10 lg:py-16">
           <div className="flex flex-col justify-center">
@@ -140,22 +182,20 @@ function PortfolioHome() {
 
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
             {portfolioVideos.map((video, index) => (
-              <article
-                key={video.id}
-                className="animate-in fade-in slide-in-from-bottom-4 overflow-hidden rounded-lg border border-[#9ee68b]/20 bg-[#182219]"
-                style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
-              >
-                <div className="aspect-[9/16] bg-[#101812]">
-                  <iframe
-                    className="h-full w-full"
-                    src={`https://www.youtube.com/embed/${video.id}`}
-                    title={video.title}
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </div>
-              </article>
+              <FadeIn key={video.id} delay={(index % 5) * 100}>
+                <article className="overflow-hidden rounded-lg border border-[#9ee68b]/20 bg-[#182219]">
+                  <div className="aspect-[9/16] bg-[#101812]">
+                    <iframe
+                      className="h-full w-full"
+                      src={`https://www.youtube.com/embed/${video.id}`}
+                      title={video.title}
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                </article>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -163,7 +203,7 @@ function PortfolioHome() {
 
       <section className="border-y border-[#9ee68b]/15 bg-[#132017] px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-          <div>
+          <FadeIn>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#9ee68b]">
               About
             </p>
@@ -182,17 +222,16 @@ function PortfolioHome() {
               smooth transitions, motion graphics, captions, and sound design
               that help content perform better.
             </p>
-          </div>
+          </FadeIn>
 
           <div className="grid gap-3">
-            {differentiators.map((item) => (
-              <div
-                key={item}
-                className="flex gap-4 rounded-lg border border-[#9ee68b]/15 bg-[#0f1511]/70 p-4"
-              >
-                <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#9ee68b]" />
-                <p className="text-sm leading-6 text-[#e9f8e4]">{item}</p>
-              </div>
+            {differentiators.map((item, index) => (
+              <FadeIn key={item} delay={index * 80}>
+                <div className="flex gap-4 rounded-lg border border-[#9ee68b]/15 bg-[#0f1511]/70 p-4">
+                  <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#9ee68b]" />
+                  <p className="text-sm leading-6 text-[#e9f8e4]">{item}</p>
+                </div>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -207,23 +246,22 @@ function PortfolioHome() {
             Short-form editing support
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {services.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="rounded-lg border border-[#9ee68b]/15 bg-[#182219] p-5"
-              >
-                <Icon className="h-7 w-7 text-[#9ee68b]" aria-hidden="true" />
-                <p className="mt-5 text-base font-bold leading-6 text-[#f8fff5]">
-                  {label}
-                </p>
-              </div>
+            {services.map(({ icon: Icon, label }, index) => (
+              <FadeIn key={label} delay={index * 80}>
+                <div className="rounded-lg border border-[#9ee68b]/15 bg-[#182219] p-5">
+                  <Icon className="h-7 w-7 text-[#9ee68b]" aria-hidden="true" />
+                  <p className="mt-5 text-base font-bold leading-6 text-[#f8fff5]">
+                    {label}
+                  </p>
+                </div>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
       <section className="px-5 pb-12 sm:px-8 lg:px-10 lg:pb-16">
-        <div className="mx-auto max-w-7xl rounded-lg border border-[#9ee68b]/20 bg-[#9ee68b]/10 p-6 sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-8">
+        <FadeIn className="mx-auto max-w-7xl rounded-lg border border-[#9ee68b]/20 bg-[#9ee68b]/10 p-6 sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-8">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#9ee68b]">
               Contact
@@ -261,8 +299,9 @@ function PortfolioHome() {
               LinkedIn
             </a>
           </div>
-        </div>
+        </FadeIn>
       </section>
     </main>
   )
-            }
+      }
+            

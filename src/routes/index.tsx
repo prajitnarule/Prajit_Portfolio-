@@ -145,7 +145,6 @@ function PortfolioHome() {
                 className="animate-in fade-in slide-in-from-bottom-4 overflow-hidden rounded-lg border border-[#9ee68b]/20 bg-[#182219]"
                 style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
               >
-              >
                 <div className="aspect-[9/16] bg-[#101812]">
                   <iframe
                     className="h-full w-full"

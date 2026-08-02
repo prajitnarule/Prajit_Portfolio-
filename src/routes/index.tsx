@@ -1,4 +1,4 @@
-editing { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'uter'
 import { useEffect, useRef, useState } from 'react'
 import {
   Captions,

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+editing { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import {
   Captions,
@@ -49,12 +49,16 @@ const portfolioVideos = [
     id: 'CC8xlAtG8B8',
     title: 'Short-form edit 08'
   },
+  {
+    id: 'YbTiwUSPhGE',
+    title: 'Short-form edit 09'
+  },
 ]
 
 const differentiators = [
   'Hook-focused editing to maximize audience retention',
   'Fast-paced, clean, and modern editing style',
-  'Custom animations and motion graphics tailored to each video',
+  'Custom animations and motion graphics tailored toeachh video',
   'Videos optimized for Instagram Reels, YouTube Shorts, and TikTok',
   'Clear communication, on-time delivery, and attention to every detail',
 ]

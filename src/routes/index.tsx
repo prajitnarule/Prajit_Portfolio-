@@ -61,7 +61,6 @@ const portfolioCategories: PortfolioCategory[] = [
   {
     title: 'Documentary Videos',
     videos: [
-      { id: 'OtBxsV-_VwU', title: 'Documentary edit 1' },
       { id: 'v6EWU-AgBww', title: 'Documentary edit 2' },
       { id: '5pQLXwW1MHo', title: 'Documentary edit 3' },
       { id: 'otwRgiV1VgQ', title: 'Documentary edit 4' },
